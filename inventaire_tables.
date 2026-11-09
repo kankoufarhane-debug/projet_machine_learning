@@ -1,0 +1,25 @@
+# Séance : 1
+# Nom : SANNI Farhanou Kankou
+# Porteur : P1
+# Etapes Assignées : 1.1, 1.8, 1.7, 1.11
+
+import pandas as pd
+
+tables = {
+    "train.csv": pd.read_csv("train.csv"),          # sinistres avec loss
+    "a_estimer.csv": pd.read_csv("a_estimer.csv"),  # sinistres sans loss
+}
+
+train = tables["train.csv"]
+variables = [c for c in train.columns if c not in ("id", "loss")]
+
+for nom, t in tables.items():
+    print(f"=== {nom} ===")
+    print("lignes, colonnes   :", t.shape)
+    print("types de colonnes  :", t.dtypes.value_counts().to_dict())
+    print("valeurs manquantes :", int(t.isna().sum().sum()))
+    print("id uniques         :", t["id"].is_unique,
+          f"(de {t['id'].min()} à {t['id'].max()})")
+    print("cible présente     :", "loss" in t.columns)
+    print("doublons (hors id) :", int(t.duplicated(subset=variables).sum()))
+    print()
